@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Release memo",
+    "description": "A pre-release readiness checklist for shipping project features: items grouped by local/test/staging/prod environment with owner, due date, priority, status and note fields, filterable by environment, status and keyword. Click the release-memo icon in the left sidebar to open a dedicated panel page with environment stat cards, grouped lists and add/edit forms; the model can also manage items through the release_memo tool. Data persists in .dsh/release-memo/checklist.json under the user home directory, seeded with sample items on first run."
+  }
+}

@@ -1,0 +1,9 @@
+node_modules/
+*.log
+.DS_Store
+Thumbs.db
+
+# 插件运行时数据（如果误放在包目录内）
+checklist.json
+checklist.json.*.tmp
+checklist.json.corrupt-*

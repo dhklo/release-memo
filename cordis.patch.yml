@@ -1,0 +1,3 @@
+- insert:
+    - id: release-memo
+      name: '@local/release-memo'
