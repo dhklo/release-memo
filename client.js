@@ -1,4 +1,4 @@
-﻿/**
+/**
  * 上线准备备忘录（release-memo）— Client 半边。
  *
  * 插槽：sidebar.panellist（侧边栏图标）+ main（中央面板页，key 与图标 id 相同）。
@@ -236,7 +236,11 @@ window.__ModuleLoader__.load({
 .rm-meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:11.5px;
   color:var(--dsw-alias-label-secondary)}
 .rm-note{font-size:12px;color:var(--dsw-alias-label-secondary);
-  padding-left:8px;border-left:2px solid var(--dsw-alias-border-l2)}
+  padding-left:8px;border-left:2px solid var(--dsw-alias-border-l2);
+  white-space:pre-wrap;word-break:break-word;line-height:1.6}
+/* 多行输入框：备注可换行 */
+.rm-textarea{resize:vertical;min-height:58px;font-family:inherit;
+  line-height:1.55;padding:7px 11px}
 .rm-row-actions{display:flex;gap:4px;flex:none;margin-top:1px;opacity:.5;
   transition:opacity var(--rm-dur-fast) var(--rm-ease-soft)}
 
@@ -910,9 +914,16 @@ window.__ModuleLoader__.load({
               onChange: (e) => setMsDraft({ ...msDraft, date: e.target.value }),
               onClick: (e) => { try { e.currentTarget.showPicker?.(); } catch { /* ignore */ } },
             })),
-          React.createElement(Field, { label: '备注' },
-            React.createElement('input', {
-              className: 'rm-input', value: msDraft.note, placeholder: '可选',
+          React.createElement(Field, { label: '备注（支持换行）' },
+            React.createElement('textarea', {
+              className: 'rm-input rm-textarea', value: msDraft.note,
+              placeholder: '可选，可换行', rows: 2,
+              onKeyDown: (e) => {
+                if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                  e.preventDefault();
+                  e.currentTarget.form?.requestSubmit?.();
+                }
+              },
               onChange: (e) => setMsDraft({ ...msDraft, note: e.target.value }),
             })),
           React.createElement('div', { className: 'rm-form-actions' },
@@ -1110,9 +1121,18 @@ window.__ModuleLoader__.load({
                   placeholder: '要检查或完成的事项',
                   onChange: (e) => setDraft({ ...draft, title: e.target.value }),
                 })),
-              React.createElement(Field, { label: '备注', span: true },
-                React.createElement('input', {
-                  className: 'rm-input', value: draft.note, placeholder: '补充说明（可选）',
+              React.createElement(Field, { label: '备注（支持换行）', span: true },
+                React.createElement('textarea', {
+                  className: 'rm-input rm-textarea', value: draft.note,
+                  placeholder: '补充说明（可选，可换行）',
+                  rows: 3,
+                  // Enter 换行，Ctrl/Cmd+Enter 提交
+                  onKeyDown: (e) => {
+                    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                      e.preventDefault();
+                      e.currentTarget.form?.requestSubmit?.();
+                    }
+                  },
                   onChange: (e) => setDraft({ ...draft, note: e.target.value }),
                 }))),
             React.createElement('div', { className: 'rm-form-actions' },
